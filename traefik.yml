@@ -13,7 +13,7 @@ api:
 
 entryPoints:
   http:
-    address: ":80" # Create an entrypoint called "http" that uses port 80
+    address: ":80"
     http:
       redirections:
         entryPoint:
@@ -21,17 +21,16 @@ entryPoints:
           scheme: "https"
 
   https:
-    address: ":443" # Create an entrypoint called "https" that uses port 443
+    address: ":443"
 
 serversTransport:
   insecureSkipVerify: true
 
 certificatesResolvers:
-  # Define "letsencrypt" certificate resolver
   letsencrypt:
     acme:
-      storage: /letsencrypt/acme.json # Defines the path where certificates should be stored
-      email: dhoni@techworks.id # Where LE sends notification about certificates expiring
+      storage: /letsencrypt/acme.json
+      email: aaa@bbb.ccc
       httpChallenge:
         entryPoint: "http"
 
@@ -40,5 +39,5 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
   file:
-    directory: "/dynamic_conf" # Adjust the path according your needs.
+    directory: "/dynamic"
     watch: true

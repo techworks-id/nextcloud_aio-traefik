@@ -1,7 +1,7 @@
 http:
   routers:
     nextcloud:
-      rule: "Host(`nc.techworks.id`)"
+      rule: "Host(`hostname.domain.TLD`)"
       entrypoints:
         - "https"
       service: nextcloud
@@ -32,7 +32,6 @@ http:
         servers:
         - url: "http://nextcloud-aio-domaincheck:11000"
         passHostHeader: "true"
-    
 
 #      loadBalancer:
 #        servers:

@@ -8,10 +8,10 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "letsencrypt:/letsencrypt"
       - "logs:/logs"
-      - "/home/ubuntu/docker/traefik/traefik.yml:/traefik.yml:ro"
-      - "/home/ubuntu/docker/traefik/dynamic:/dynamic_conf"
+      - ".traefik.yml:/traefik.yml:ro"
+      - ".dynamic:/dynamic"
     environment:
-      - TZ=Asia/Jakarta
+      - TZ=Etc/UTC
     ports:
       - "80:80"
       - "443:443"

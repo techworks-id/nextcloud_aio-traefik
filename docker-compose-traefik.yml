@@ -1,0 +1,33 @@
+
+services:
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
+      - "logs:/logs"
+      - "/home/ubuntu/docker/traefik/traefik.yml:/traefik.yml:ro"
+      - "/home/ubuntu/docker/traefik/dynamic:/dynamic_conf"
+    environment:
+      - TZ=Asia/Jakarta
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      proxy:
+      nextcloud-aio:
+
+volumes:
+    letsencrypt:
+    logs:
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+  nextcloud-aio:
+    name: nextcloud-aio
+    external: true

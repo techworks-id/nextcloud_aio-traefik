@@ -1,0 +1,61 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`nc.techworks.id`)"
+      entrypoints:
+        - "https"
+      service: nextcloud
+      middlewares:
+        - nextcloud-chain
+      tls:
+        certresolver: "letsencrypt"
+
+  services:
+    nextcloud:
+      failover:
+        healthCheck: {}
+        service: nc_run
+        fallback: nc_setup
+    nc_run:
+      loadBalancer:
+        healthCheck:
+          interval: 10s
+          timeout: 3s
+        servers:
+        - url: "http://nextcloud-aio-apache:11000"
+        passHostHeader: "true"
+    nc_setup:
+      loadBalancer:
+        healthCheck:
+          interval: 10s
+          timeout: 3s
+        servers:
+        - url: "http://nextcloud-aio-domaincheck:11000"
+        passHostHeader: "true"
+    
+
+#      loadBalancer:
+#        servers:
+#          - url: "http://nextcloud-aio-domaincheck:11000" # Use the host's IP address if Traefik runs outside the host network
+#          - url: "http://nextcloud-aio-apache:11000" # Use the host's IP address if Traefik runs outside the host network
+#        passHostHeader: "true"
+
+  middlewares:
+    nextcloud-secure-headers:
+      headers:
+        hostsProxyHeaders:
+          - "X-Forwarded-Host"
+        referrerPolicy: "same-origin"
+        customResponseHeaders:
+          X-Robots-Tag:  "noindex, nofollow"
+
+    https-redirect:
+      redirectscheme:
+        scheme: "https"
+        permanent: "true"
+
+    nextcloud-chain:
+      chain:
+        middlewares:
+          - https-redirect
+          - nextcloud-secure-headers

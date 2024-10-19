@@ -8,8 +8,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "letsencrypt:/letsencrypt"
       - "logs:/logs"
-      - ".traefik.yml:/traefik.yml:ro"
-      - ".dynamic:/dynamic"
+      - "./traefik.yml:/traefik.yml:ro"
+      - "./dynamic:/dynamic"
     environment:
       - TZ=Etc/UTC
     ports:

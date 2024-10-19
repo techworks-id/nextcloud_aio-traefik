@@ -1,7 +1,7 @@
 http:
   routers:
     nextcloud:
-      rule: "Host(`hostname.domain.TLD`)"
+      rule: "Host(`nc.techworks.id`)"
       entrypoints:
         - "https"
       service: nextcloud
@@ -19,6 +19,7 @@ http:
     nc_run:
       loadBalancer:
         healthCheck:
+          path: /
           interval: 5s
           timeout: 2s
         servers:
@@ -27,6 +28,7 @@ http:
     nc_setup:
       loadBalancer:
         healthCheck:
+          path: /
           interval: 5s
           timeout: 2s
         servers:

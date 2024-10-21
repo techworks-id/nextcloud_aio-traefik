@@ -14,14 +14,10 @@ http:
     nextcloud:
       failover:
         healthCheck: {}
-        service: nc_run
-        fallback: nc_setup
+        service: nc_setup
+        fallback: nc_run
     nc_run:
       loadBalancer:
-        healthCheck:
-          path: /
-          interval: 5s
-          timeout: 2s
         servers:
         - url: "http://nextcloud-aio-apache:11000"
         passHostHeader: "true"

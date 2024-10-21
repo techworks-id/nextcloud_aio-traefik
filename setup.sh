@@ -2,7 +2,7 @@
 
 echo Configuration
 read -p ' Email address to be used for letsencrypton traefik: ' varmail
-read -p ' FQDN for nextcloud: ' varfqdn
+read -p ' FQDN for nextcloud                                : ' varfqdn
 sed -i "s/aaa@bbb.ccc/$varmail/" traefik.yml
 sed -i "s/hostname.domain.TLD/$varfqdn/" dynamic/nextcloud.yml
 

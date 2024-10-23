@@ -13,7 +13,6 @@ http:
   services:
     nextcloud:
       failover:
-        healthCheck: {}
         service: nc_setup
         fallback: nc_run
     nc_run:

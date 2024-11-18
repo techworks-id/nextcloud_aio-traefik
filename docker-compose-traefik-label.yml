@@ -1,0 +1,56 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik"
+    container_name: "traefik"
+    restart: always
+    command:
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--log.level=DEBUG"
+      #- "--log.filePath=/logs/traefik.log"
+      - "--api.dashboard=true"
+      - "--api.debug=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      #- "--providers.file.directory=/dynamic"
+      #- "--providers.file.watch=true"
+      - "--serversTransport.insecureSkipVerify=true"
+      - "--entryPoints.http.address=:80"
+      - "--entryPoints.http.http.redirections.entryPoint.to=https"
+      - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
+      - "--entryPoints.http.http.redirections.entrypoint.permanent=true"
+      - "--entryPoints.https.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
+      #- "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.letsencrypt.acme.email=dhoni@techworks.id"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    environment:
+      - TZ=Asia/Jakarta
+    ports:
+      - "80:80"
+      - "443:443"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - "letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      #- "/docker/traefik/dynamic/:/dynamic"
+      #- "/docker/traefik/logs/:/logs"
+    networks:
+      proxy:
+      nextcloud-aio:
+
+volumes:
+    letsencrypt:
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+  nextcloud-aio:
+    name: nextcloud-aio
+    external: true

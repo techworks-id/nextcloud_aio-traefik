@@ -34,8 +34,8 @@ services:
     volumes:
       - "letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/docker/traefik/dynamic/:/dynamic"
-      - "/docker/traefik/logs/:/logs"
+      - "./dynamic:/dynamic"
+      - "./traefiklogs:/logs"
     networks:
       proxy:
       nextcloud-aio:

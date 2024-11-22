@@ -19,5 +19,5 @@ docker compose -p nextcloud_aio -f docker-compose-nextcloud_aio.yml up -d
 echo Done
 echo Proced nextcloud installation on your ip:8081
 echo For monitoring traefik open ip:8080
-read -n 1 -s -r -p "Press any key to continue, it will automaticaly run docker stats for checking container status."
+read -p "Press enter to continue, it will automaticaly run docker stats for checking container status."
 docker stats

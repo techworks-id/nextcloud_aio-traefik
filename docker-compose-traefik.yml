@@ -1,27 +1,47 @@
 services:
   traefik:
-    image: "traefik:latest"
+    image: "traefik"
     container_name: "traefik"
-    restart: unless-stopped
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "letsencrypt:/letsencrypt"
-      - "logs:/logs"
-      - "./traefik.yml:/traefik.yml:ro"
-      - "./dynamic:/dynamic"
+    restart: always
+    command:
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--log.level=DEBUG"
+      - "--log.filePath=/logs/traefik.log"
+      - "--api.dashboard=true"
+      - "--api.debug=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/dynamic"
+      - "--providers.file.watch=true"
+      - "--serversTransport.insecureSkipVerify=true"
+      - "--entryPoints.http.address=:80"
+      - "--entryPoints.http.http.redirections.entryPoint.to=https"
+      - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
+      - "--entryPoints.http.http.redirections.entrypoint.permanent=true"
+      - "--entryPoints.https.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
+      - "--certificatesresolvers.letsencrypt.acme.email=aaa@bbb.ccc"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     environment:
       - TZ=Etc/UTC
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - "letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/docker/traefik/dynamic/:/dynamic"
+      - "/docker/traefik/logs/:/logs"
     networks:
       proxy:
       nextcloud-aio:
 
 volumes:
     letsencrypt:
-    logs:
 
 networks:
   proxy:

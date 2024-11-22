@@ -1,12 +1,12 @@
 http:
   routers:
     nextcloud:
-      rule: "Host(`nc.techworks.id`)"
+      rule: "Host(`hostname.domain.TLD`)"
       entrypoints:
         - "https"
       service: nextcloud
       middlewares:
-        - nextcloud-chain
+        - nc-chain
       tls:
         certresolver: "letsencrypt"
 
@@ -31,7 +31,7 @@ http:
         passHostHeader: "true"
 
   middlewares:
-    nextcloud-secure-headers:
+    nc-secure-headers:
       headers:
         hostsProxyHeaders:
           - "X-Forwarded-Host"
@@ -44,8 +44,8 @@ http:
         scheme: "https"
         permanent: "true"
 
-    nextcloud-chain:
+    nc-chain:
       chain:
         middlewares:
           - https-redirect
-          - nextcloud-secure-headers
+          - nc-secure-headers

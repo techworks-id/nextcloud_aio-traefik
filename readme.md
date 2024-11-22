@@ -4,7 +4,7 @@ clone this repo https://github.com/techworks-id/nextcloud_aio-traefik.git <br/>
 
 run setup.sh for automated container installation or run manualy using several command below. <br/>
 
-sed -i 's/aaa@bbb.ccc/your@email.com/' traefik.yml <br/>
+sed -i 's/aaa@bbb.ccc/your@email.com/' docker-compose-traefik.yml <br/>
 sed -i 's/hostname.domain.TLD/your.domain.com/' dynamic/nextcloud.yml <br/>
 
 docker network create --driver=bridge proxy <br/>

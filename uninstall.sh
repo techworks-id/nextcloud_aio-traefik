@@ -11,7 +11,7 @@ then
 
     echo "To prevent lost of importand data, volume must be remove manualy."
     echo "If you sure want to remove all dangling volume, use command: docker volume prune -a"
-    echo "Your Nextcloud data is saved using this environtmetn: "NEXTCLOUD_DATADIR: /mnt/ncdata", If you want to deploy nextcloud-aio again remove /mnt/ncdata or use other path before running setup.sh"
+    echo "Your Nextcloud data is saved using this environment: "NEXTCLOUD_DATADIR: /mnt/ncdata", If you want to deploy nextcloud-aio again remove /mnt/ncdata or use other path before running setup.sh"
 else
     echo "Ok then. :D"
 fi
